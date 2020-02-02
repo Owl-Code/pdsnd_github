@@ -16,38 +16,47 @@ def get_filters():
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
     print('Hello! Let\'s explore some US bikeshare data!')
-    city, month, day, filter_by = '', '', '', ''
-    months = ['all', 'january', 'february', 'march', 'april',
-              'may', 'june']
-    days_of_week = ['all', 'monday', 'tuesday', 'wednesday',
-                    'thursday', 'friday', 'saturday', 'sunday']
+
     city = get_city()
-    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-    while(True):
-        if not (city in CITY_DATA):    
-            city = input('Would you like to see data for Chicago, New York, or Washington?\n').lower()
-            if city == 'new york':
-                city = 'new york city'
-    # get user input for month (all, january, february, ... , june)
-        if (filter_by != 'month') or (filter_by != 'day') or (filter_by != 'none'):    
-            filter_by = input('Would you like to filter the data by month, day, or none?\n(typos will be counted as none)\n').lower()
-        if filter_by == 'month':
-            if month not in months:
-                month = input('Which month - January, February, March, April, May, or June\n').lower()
-                day = 'all'
-                
-        elif filter_by == 'day':    
-    # get user input for day of week (all, monday, tuesday, ... sunday)
-            if day not in days_of_week:
-                day = input('Which day - Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday\n').lower()
-                month = 'all'
-        else:
-            month = 'all'
-            day = 'all'
-        if (city in CITY_DATA and month in months and day in days_of_week):
-            break
+    month, day = get_month_day()
     print('-'*40)
     return city, month, day
+
+def get_month_day():
+    """
+    Gets user filter for month, day or none 
+
+    Args:
+        (none)
+    Returns:
+        month - string of january, february, march, april, may, june or all
+        day - string of monday, tuesday, wednesday, thursday, friday, saturday, sunday or all
+    """
+    months = ['all', 'january', 'february', 'march', 'april',
+              'may', 'june']
+    dow = ['all', 'monday', 'tuesday', 'wednesday',
+                    'thursday', 'friday', 'saturday', 'sunday']
+
+    
+    filter_by = input('Would you like to filter by Day, Month or None?\n').lower()
+    while (filter_by != 'month') and (filter_by != 'day') and (filter_by != 'none'):
+        filter_by = input('Something went wrong, you entered {}.\nPlease try again.\nDay, Month or None?\n'.format(filter_by)).lower()
+
+    if filter_by == 'month':
+        month = input('Which month - January, February, March, April, May, or June\n').lower()
+        while not month in months:
+            month = input('You entered {}.\nPlease try again.\nJanuary, February, March, April, May, or June\n'.format(month)).lower()
+        return month, 'all'
+
+    elif filter_by == 'day':
+        day = input('Which day - Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday\n').lower()
+        while not day in dow:
+            day = input('You entered {}. \nPlease try again.\nMonday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday\n'.format(day)).lower()
+        return 'all', day
+    
+    else:
+        return 'all', 'all'
+
 
 def get_city():
     """
