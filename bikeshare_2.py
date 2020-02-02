@@ -21,7 +21,7 @@ def get_filters():
               'may', 'june']
     days_of_week = ['all', 'monday', 'tuesday', 'wednesday',
                     'thursday', 'friday', 'saturday', 'sunday']
-    
+    city = get_city()
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     while(True):
         if not (city in CITY_DATA):    
@@ -48,6 +48,27 @@ def get_filters():
             break
     print('-'*40)
     return city, month, day
+
+def get_city():
+    """
+    Gets user input for City selection
+
+    Args:
+        (none)
+    Returns:
+        city - string formated to work as index for CITY_DATA dictionary
+    """
+    city = ''
+    while True:
+        if city == '':
+            city = input('Would you like to see data for Chicago, New York, or Washington?\n').lower()
+        elif not city in CITY_DATA:
+            city = input('Something went wrong, you entered {}.\nPlease try again.\nChicago, New York, or Washington?\n'.format(city)).lower()
+        else:
+            break
+        if city == 'new york':
+            city = 'new york city'
+    return city
 
 
 def load_data(city, month, day):
