@@ -67,16 +67,11 @@ def get_city():
     Returns:
         city - string formated to work as index for CITY_DATA dictionary
     """
-    city = ''
-    while True:
-        if city == '':
-            city = input('Would you like to see data for Chicago, New York, or Washington?\n').lower()
-        elif not city in CITY_DATA:
-            city = input('Something went wrong, you entered {}.\nPlease try again.\nChicago, New York, or Washington?\n'.format(city)).lower()
-        else:
-            break
-        if city == 'new york':
-            city = 'new york city'
+    city = input('Would you like to see data for Chicago, New York, or Washington?\n').lower()
+    while not city in CITY_DATA or city != 'new york':
+        city = input('Something went wrong, you entered {}.\nPlease try again.\nChicago, New York, or Washington?\n'.format(city)).lower()
+    if city == 'new york':
+        city = 'new york city'
     return city
 
 
