@@ -87,8 +87,6 @@ def load_data(city, month, day):
         df - Pandas DataFrame containing city data filtered by month and day
     """
     # taken from the practice problem #3 before project submission
-    # for info on 'datetime' I used
-    # https://stackoverflow.com/questions/25146121/extracting-just-month-and-year-separately-from-pandas-datetime-column
     df = pd.read_csv(CITY_DATA[city])
     df['Start Time'] = pd.to_datetime(df['Start Time'])
     df['End Time'] = pd.to_datetime(df['End Time'])
@@ -142,8 +140,6 @@ def station_stats(df):
     print('The most popular end station is {} with {} ended trips.'.format(df['End Station'].value_counts().idxmax(), df['End Station'].value_counts().max()))
 
     # display most frequent combination of start station and end station trip
-    # found use of 'groupby' method from 
-    # https://stackoverflow.com/questions/27018622/pandas-groupby-sort-descending-order/36316186
     most_trips = df.groupby(['Start Station','End Station'])['End Station'].agg(['count'])
     most_trips = most_trips.sort_values(('count'), ascending=False)[0:3][0:1]
     most_trips_start = most_trips.index[0][0]
@@ -185,16 +181,12 @@ def user_stats(df):
 
     # Display counts of user types
     user_type_count = df.groupby(['User Type'])['User Type'].agg(['count'])
-    # found use of method 'iterrows' from
-    # https://stackoverflow.com/questions/40004871/pandas-get-the-value-of-the-index-for-a-row
     for i, row in user_type_count.iterrows():
         print('There are {} {} users.'.format(row[0],i))
         
     print()
     
     # Display counts of gender
-    # found of 'in df.columns' from
-    # https://stackoverflow.com/questions/24870306/how-to-check-if-a-column-exists-in-pandas/39371897
     if 'Gender' in df.columns:    
         gender_count = df.groupby(['Gender'])['Gender'].agg(['count'])
         for i, row in gender_count.iterrows():
@@ -227,8 +219,6 @@ def user_stats(df):
 
 def display_raw_data(df):
     view_count = 0
-    # set option found
-    #https://stackoverflow.com/questions/11707586/how-do-i-expand-the-output-display-to-see-more-columns-of-a-pandas-dataframe
     pd.set_option('display.width',1000)
     pd.set_option('display.max_rows', 500)
     pd.set_option('display.max_columns', 500)
